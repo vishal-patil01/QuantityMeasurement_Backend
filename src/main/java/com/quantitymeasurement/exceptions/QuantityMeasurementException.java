@@ -1,7 +1,7 @@
 package com.quantitymeasurement.exceptions;
 
 public class QuantityMeasurementException extends RuntimeException {
-    public enum Type {UNIT_NOT_AVAILABLE}
+    public enum Type {UNIT_TYPE_MISMATCH, UNIT_NOT_AVAILABLE}
 
     public Type type;
     public String message;

@@ -1,6 +1,7 @@
 package com.quantitymeasurement;
 
 import com.google.gson.Gson;
+import com.quantitymeasurement.dto.UnitsConversionDTO;
 import com.quantitymeasurement.enums.SubUnits;
 import com.quantitymeasurement.enums.UnitType;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +38,7 @@ class QuantityMeasurementApplicationTests {
     public void quantityMeasurementGetUnitType_ShouldReturnJsonArrayOfUnitsType() {
         UnitType[] expectedArray = {UnitType.LENGTH, UnitType.WEIGHT, UnitType.VOLUME, UnitType.TEMPERATURE};
         String numbersJson = gson.toJson(expectedArray);
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/unittype",
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "/unit/type",
                 String.class)).contains(numbersJson);
     }
 
@@ -47,7 +50,7 @@ class QuantityMeasurementApplicationTests {
         expectedList.add(SubUnits.YARD);
         expectedList.add(SubUnits.CENTIMETER);
         String numbersJson = gson.toJson(expectedList);
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "unittype/LENGTH",
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "unit/type/LENGTH",
                 String.class)).contains(numbersJson);
     }
 
@@ -58,7 +61,7 @@ class QuantityMeasurementApplicationTests {
         expectedList.add(SubUnits.GALLON);
         expectedList.add(SubUnits.MILLILITER);
         String numbersJson = gson.toJson(expectedList);
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "unittype/VOLUME",
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "unit/type/VOLUME",
                 String.class)).contains(numbersJson);
     }
 
@@ -69,7 +72,7 @@ class QuantityMeasurementApplicationTests {
         expectedList.add(SubUnits.GRAMS);
         expectedList.add(SubUnits.TON);
         String numbersJson = gson.toJson(expectedList);
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "unittype/WEIGHT",
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "unit/type/WEIGHT",
                 String.class)).contains(numbersJson);
     }
 
@@ -79,7 +82,7 @@ class QuantityMeasurementApplicationTests {
         expectedList.add(SubUnits.FAHRENHEIT);
         expectedList.add(SubUnits.CELSIUS);
         String numbersJson = gson.toJson(expectedList);
-        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "unittype/TEMPERATURE",
+        assertThat(this.restTemplate.getForObject("http://localhost:" + port + "unit/type/TEMPERATURE",
                 String.class)).contains(numbersJson);
     }
 }
