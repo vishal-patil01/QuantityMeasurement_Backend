@@ -74,7 +74,7 @@ public class MockitoTestQuantityMeasurementController {
         expectedList.add(SubUnits.INCH);
         expectedList.add(SubUnits.YARD);
         expectedList.add(SubUnits.CENTIMETER);
-        given(service.getSubUnitList(UnitType.LENGTH)).willReturn(expectedList);
+        given(service.getSubUnitList("LENGTH")).willReturn(expectedList);
         mockMvc.perform(get("/unit/type/LENGTH"))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -84,7 +84,7 @@ public class MockitoTestQuantityMeasurementController {
     @Test
     public void testGetConvertedValue() throws Exception {
         when(service.getConvertedValue(any())).thenReturn(12.0);
-        MvcResult mvcResult = mockMvc.perform(post("/converter")
+        MvcResult mvcResult = mockMvc.perform(post("/unit/converter")
                 .content(jsonDTO)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
@@ -101,7 +101,7 @@ public class MockitoTestQuantityMeasurementController {
         UnitResponseDTO unitResponseDTO = new UnitResponseDTO(2, "Response Successful", 200);
         String JsonUnitsResponseDTO = gson.toJson(unitResponseDTO);
         when(service.getConvertedValue(any())).thenReturn(2.0);
-        mockMvc.perform(post("/converter")
+        mockMvc.perform(post("/unit/converter")
                 .content(jsonDTO)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -113,7 +113,7 @@ public class MockitoTestQuantityMeasurementController {
         UnitResponseDTO unitResponseDTO = new UnitResponseDTO(12, "Response Successful", 200);
         String JsonUnitsResponseDTO = gson.toJson(unitResponseDTO);
         when(service.getConvertedValue(any())).thenReturn(12.0);
-        mockMvc.perform(post("/converter")
+        mockMvc.perform(post("/unit/converter")
                 .content(jsonDTO)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -124,7 +124,7 @@ public class MockitoTestQuantityMeasurementController {
     @Test
     public void givenUnitsDto_whenWrongContentType_thenReturnStatus415() throws Exception {
         when(service.getConvertedValue(unitsConversionDTO)).thenReturn(0.0);
-        MvcResult mvcResult = this.mockMvc.perform(post("/converter").content(jsonDTO)
+        MvcResult mvcResult = this.mockMvc.perform(post("/unit/converter").content(jsonDTO)
                 .contentType(MediaType.APPLICATION_XML)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(415, status);
@@ -133,7 +133,7 @@ public class MockitoTestQuantityMeasurementController {
     @Test
     public void givenUnitsDto_whenWongContent_thenReturnStatus400() throws Exception {
         when(service.getConvertedValue(unitsConversionDTO)).thenReturn(0.0);
-        MvcResult mvcResult = this.mockMvc.perform(post("/converter").content(unitsConversionDTO.toString())
+        MvcResult mvcResult = this.mockMvc.perform(post("/unit/converter").content(unitsConversionDTO.toString())
                 .contentType(MediaType.APPLICATION_JSON)).andReturn();
         int status = mvcResult.getResponse().getStatus();
         Assert.assertEquals(400, status);

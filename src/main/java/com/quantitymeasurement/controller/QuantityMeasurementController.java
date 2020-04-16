@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@CrossOrigin(origins = "*")
 @RestController()
 public class QuantityMeasurementController {
 
@@ -24,11 +24,11 @@ public class QuantityMeasurementController {
         return new ResponseEntity<>(unitConversionService.getUnitTypeList(), HttpStatus.OK);
     }
     @GetMapping("/unit/type/{unit}")
-    public ResponseEntity<List<SubUnits>> getAllSubUnits(@PathVariable UnitType unit) {
+    public ResponseEntity<List<SubUnits>> getAllSubUnits(@PathVariable String unit) {
         return new ResponseEntity<>(unitConversionService.getSubUnitList(unit), HttpStatus.OK);
     }
 
-    @PostMapping("/converter")
+    @PostMapping("unit/converter")
     public ResponseEntity<UnitResponseDTO> getUnitData(@RequestBody UnitsConversionDTO unitsConversionDTO) {
         Double convertedValue = unitConversionService.getConvertedValue(unitsConversionDTO);
         UnitResponseDTO unitResponseDTO = new UnitResponseDTO(convertedValue, "Response Successful",200);

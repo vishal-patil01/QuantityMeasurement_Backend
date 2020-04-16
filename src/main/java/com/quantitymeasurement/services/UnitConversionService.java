@@ -17,20 +17,21 @@ public class UnitConversionService {
         return UnitType.values();
     }
 
-    public List<SubUnits> getSubUnitList(UnitType unitType) {
-        List<SubUnits> subUnitsList = Arrays.stream(SubUnits.values()).filter(subUnits -> subUnits.unitType.equals(unitType))
+    public List<SubUnits> getSubUnitList(String unitType) {
+        List<SubUnits> subUnitsList = Arrays.stream(SubUnits.values()).filter(subUnits -> subUnits.unitType.toString().equals(unitType))
                 .collect(Collectors.toList());
+        System.out.println(subUnitsList);
         if (subUnitsList.size() > 0) {
             return subUnitsList;
         }
-        throw new QuantityMeasurementException("This type value does not exist", QuantityMeasurementException.Type.UNIT_NOT_AVAILABLE);
+        throw new QuantityMeasurementException("This Type Of Unit Not Exist", QuantityMeasurementException.Type.UNIT_NOT_AVAILABLE);
     }
 
     public Double getConvertedValue(UnitsConversionDTO unitsConversionDTO) {
         if (unitsConversionDTO.getFirstUnitType().unitType.equals(unitsConversionDTO.getSecondUnitType().unitType)) {
             return conversionForNormalUnits(unitsConversionDTO);
         }
-        throw new QuantityMeasurementException("Unit Type Mismatch", QuantityMeasurementException.Type.UNIT_TYPE_MISMATCH);
+        throw new QuantityMeasurementException("Unit Type Mismatch : '"+unitsConversionDTO.getFirstUnitType()+"' Can Not Be Converted To '"+unitsConversionDTO.getSecondUnitType()+"'", QuantityMeasurementException.Type.UNIT_TYPE_MISMATCH);
     }
 
     public Double conversionForNormalUnits(UnitsConversionDTO unitsConversionDTO) {
@@ -48,5 +49,4 @@ public class UnitConversionService {
         }
         return (unitsConversionDTO.getValue() * unitsConversionDTO.getFirstUnitType().unitValue) / unitsConversionDTO.getSecondUnitType().unitValue;
     }
-
 }
